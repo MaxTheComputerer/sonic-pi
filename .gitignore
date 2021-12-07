@@ -142,3 +142,4 @@ etc/synthdefs/designs/overtone/sonic-pi/native
 
 # Visual Studio settings folder.
 .vs
+.vscode
