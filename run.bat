@@ -1,0 +1,1 @@
+D:\Downloads\sonic-pi\app\build\gui\qt\Release\sonic-pi.exe &
