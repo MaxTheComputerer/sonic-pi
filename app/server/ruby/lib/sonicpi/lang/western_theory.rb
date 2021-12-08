@@ -2,6 +2,7 @@ require_relative "../note"
 require_relative "../scale"
 require_relative "../chord"
 require_relative "../chordgroup"
+require_relative "../metre"
 require_relative "support/docsystem"
 
 class SonicPi::Core::SPVector
@@ -1113,6 +1114,11 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
       accepts_block: false,
       memoize:       true,
       examples:      ["puts chord_names #=>  prints a list of all the chords"]
+
+
+      def with_metre(metre, *args, &block)
+        puts metre
+      end
 
     end
   end
