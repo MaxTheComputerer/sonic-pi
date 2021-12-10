@@ -1115,9 +1115,30 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
       memoize:       true,
       examples:      ["puts chord_names #=>  prints a list of all the chords"]
 
+      def use_metre(metre, &block)
+        raise ArgumentError, "use_metre does not work with a block. Perhaps you meant with_metre" if block
+        new_metre = Metre.new(metre)
+        __thread_locals.set(:sonic_pi_metre, new_metre)
+      end
 
-      def with_metre(metre, *args, &block)
-        puts metre
+      def with_metre(metre, &block)
+        raise ArgumentError, "with_metre must be called with a do/end block. Perhaps you meant use_metre" unless block
+        original_metre = __thread_locals.get(:sonic_pi_metre)
+        new_metre = Metre.new(metre)
+        __thread_locals.set(:sonic_pi_metre, new_metre)
+        block.call
+        __thread_locals.set(:sonic_pi_metre, original_metre)
+      end
+
+      def bar(&block)
+        raise ArgumentError, "bar must be called with a do/end block" unless block
+        raise "Bar requires a metre to be defined" unless __thread_locals.get(:sonic_pi_metre)
+        raise "Bars cannot be nested" if __thread_locals.get(:sonic_pi_bar)
+        bar_object = Bar.new
+        __thread_locals.set(:sonic_pi_bar, bar_object)
+        block.call
+        sleep(bar_object.calculate_sleep_time(bar_object.total_remaining_pulse_units))
+        __thread_locals.set(:sonic_pi_bar, nil)
       end
 
     end

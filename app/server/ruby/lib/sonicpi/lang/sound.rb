@@ -4076,7 +4076,16 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       def sample_find_candidates(*args)
         @sample_loader.find_candidates(*args)
       end
-    end
 
+      def play_duration(n, level=0, duration=1, *args, &blk)
+        current_bar = __thread_locals.get(:sonic_pi_bar)
+        raise "play_duration must be called inside a bar" unless current_bar
+        note_pulse_units = current_bar.note_to_pulse_units(level, duration)
+        current_bar.add_note(level, duration)
+        play(n, *args, &blk)
+        sleep(current_bar.calculate_sleep_time(note_pulse_units))
+      end
+
+    end
   end
 end
