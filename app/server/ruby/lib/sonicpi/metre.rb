@@ -28,6 +28,8 @@ module SonicPi
         end
     end
 
+
+    
     class Bar
 
         attr_reader :current_beat, :current_pulse_unit, :metre
