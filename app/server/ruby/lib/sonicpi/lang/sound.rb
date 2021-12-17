@@ -4082,7 +4082,10 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         raise "add_note must be called inside a bar" unless current_bar
         note_pulse_units = current_bar.note_to_pulse_units(level, duration)
         current_bar.add_note(level, duration)
-        play(n, *args, &blk)
+        shift = 0
+        time_warp shift do
+          play(n, *args, &blk)
+        end
         sleep(current_bar.calculate_sleep_time(note_pulse_units))
       end
 
