@@ -2,7 +2,7 @@ require_relative "../note"
 require_relative "../scale"
 require_relative "../chord"
 require_relative "../chordgroup"
-require_relative "../metre"
+require_relative "../metre/metre"
 require_relative "support/docsystem"
 
 class SonicPi::Core::SPVector
