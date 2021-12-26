@@ -10,9 +10,9 @@ module SonicPi
       '12_8' => [3,3,3,3]
     }.freeze
     
-    attr_reader :beat_groupings, :total_beats, :total_pulse_units
+    attr_reader :beat_groupings, :total_beats, :total_pulse_units, :style, :timings
     
-    def initialize(metre)
+    def initialize(metre, style=nil)
       if is_list_like?(metre)
         @beat_groupings = metre
       else
@@ -20,11 +20,34 @@ module SonicPi
       end
       @total_beats = @beat_groupings.length
       @total_pulse_units = @beat_groupings.sum
-      freeze
+      @style = style
+      @timings = Array.new(@total_pulse_units, 0)
+      @current_bar_number = __thread_locals.get(:sonic_pi_bar_number)
+      @current_bar_number = 0 unless @current_bar_number
+      @mutex = Mutex.new
     end
     
     def sp_thread_safe?
       true
+    end
+
+    def get_timing(pulse_unit)
+      @timings[pulse_unit]
+    end
+
+    def register_bar(requested_bar_number)
+      @mutex.synchronize do
+        if requested_bar_number > @current_bar_number
+          recalculate_timings
+          @current_bar_number = requested_bar_number
+        end
+      end
+      return @current_bar_number
+    end
+
+    private
+    def recalculate_timings
+      @timings[0] = @timings[0] + 1
     end
   end
   
@@ -38,6 +61,14 @@ module SonicPi
       @metre = __thread_locals.get(:sonic_pi_metre)
       @current_beat = 0
       @current_pulse_unit = 0
+
+      previous_bar_number = __thread_locals.get(:sonic_pi_bar_number)
+      if previous_bar_number
+        current_bar_number = @metre.register_bar(previous_bar_number + 1)
+      else
+        current_bar_number = 0
+      end
+      __thread_locals.set(:sonic_pi_bar_number, current_bar_number)
     end
     
     def sp_thread_safe?

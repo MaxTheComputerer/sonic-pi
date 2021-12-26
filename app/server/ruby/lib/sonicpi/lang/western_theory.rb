@@ -1132,12 +1132,16 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
 
       def bar(&block)
         raise ArgumentError, "bar must be called with a do/end block" unless block
-        raise "Bar requires a metre to be defined" unless __thread_locals.get(:sonic_pi_metre)
+        metre = __thread_locals.get(:sonic_pi_metre)
+        raise "Bar requires a metre to be defined" unless metre
         raise "Bars cannot be nested" if __thread_locals.get(:sonic_pi_bar)
         bar_object = Bar.new
         __thread_locals.set(:sonic_pi_bar, bar_object)
+
+        puts metre.timings
         block.call
         sleep(bar_object.calculate_sleep_time(bar_object.total_remaining_pulse_units))
+        
         __thread_locals.set(:sonic_pi_bar, nil)
       end
 
