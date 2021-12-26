@@ -10,7 +10,7 @@ module SonicPi
 
       previous_bar_number = __thread_locals.get(:sonic_pi_bar_number)
       if previous_bar_number
-        current_bar_number = @metre.register_bar(previous_bar_number + 1)
+        current_bar_number = @metre.request_bar(previous_bar_number + 1)
       else
         current_bar_number = 0
       end
@@ -37,15 +37,9 @@ module SonicPi
     def beat_remaining_pulse_units
       @metre.beat_groupings[@current_beat] - @current_pulse_unit
     end
-    
+
     def note_to_pulse_units(level, duration)
-      if level == 0
-        # Lookup number of pulse units in current beat
-        @metre.beat_groupings[@current_beat]
-      else
-        # Assume pulse units are further divisible by 2
-        (2 ** (level + 1)) * duration
-      end
+      @metre.note_to_pulse_units(@current_beat, level, duration)
     end
     
     def fit_note?(level, duration)
@@ -61,10 +55,6 @@ module SonicPi
         @current_pulse_unit = 0
       end
       @current_pulse_unit += pulse_units_to_add
-    end
-    
-    def calculate_sleep_time(pulse_units)
-      pulse_units.to_f / @metre.beat_groupings[0]
     end
   end
 end

@@ -4080,21 +4080,25 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
       def add_note(n, level=0, duration=1, *args, &blk)
         current_bar = __thread_locals.get(:sonic_pi_bar)
         raise "add_note must be called inside a bar" unless current_bar
+        metre = __thread_locals.get(:sonic_pi_metre)
         note_pulse_units = current_bar.note_to_pulse_units(level, duration)
+
         current_bar.add_note(level, duration)
         shift = 0
         time_warp shift do
           play(n, *args, &blk)
         end
-        sleep(current_bar.calculate_sleep_time(note_pulse_units))
+        sleep(metre.to_beats(note_pulse_units))
       end
 
       def add_rest(level=0, duration=1)
         current_bar = __thread_locals.get(:sonic_pi_bar)
         raise "add_rest must be called inside a bar" unless current_bar
+        metre = __thread_locals.get(:sonic_pi_metre)
         rest_pulse_units = current_bar.note_to_pulse_units(level, duration)
+        
         current_bar.add_note(level, duration)
-        sleep(current_bar.calculate_sleep_time(rest_pulse_units))
+        sleep(metre.to_beats(rest_pulse_units))
       end
     end
   end
