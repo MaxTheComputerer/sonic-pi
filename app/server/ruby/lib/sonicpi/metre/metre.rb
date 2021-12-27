@@ -1,5 +1,5 @@
 require_relative "bar"
-require_relative "distribution"
+require_relative "style"
 
 module SonicPi
   class Metre
@@ -35,7 +35,23 @@ module SonicPi
       end
     end
 
-    def to_beats(pulse_units)
+    def metrical_level_indices(current_beat, total_elapsed_pulse_units, lowest_metrical_level)
+      indices = []
+      indices[0] = current_beat
+    
+      level = -1
+      position = total_elapsed_pulse_units
+      indices[-level] = position.floor
+    
+      (2..-lowest_metrical_level).each do |i|
+        level -= 1
+        position *= 2
+        indices[-level] = position.floor
+      end
+      return indices
+    end
+
+    def sleep_time(pulse_units)
       pulse_units.to_f / beat_groupings[0]
     end
   end
@@ -44,10 +60,16 @@ module SonicPi
   class SynchronisedMetre < Metre
     attr_reader :style, :timings
     
-    def initialize(metre, style=nil)
+    def initialize(metre, style_name=nil)
       super(metre)
-      @style = style
-      @timings = Array.new(@total_pulse_units, 0)
+
+      if style_name
+        @style = Style.lookup(style_name)
+        raise "Style #{style_name} requires beat groupings #{@style.beat_groupings} but metre has #{@beat_groupings}" unless @beat_groupings == @style.beat_groupings
+      end
+      @timings = {}
+      recalculate_timings if @style
+
       @current_bar_number = __thread_locals.get(:sonic_pi_bar_number)
       @current_bar_number = 0 unless @current_bar_number
       @mutex = Mutex.new
@@ -57,14 +79,21 @@ module SonicPi
       true
     end
 
-    def get_timing(pulse_unit)
-      @timings[pulse_unit]
+    def get_timing(current_beat, total_elapsed_pulse_units)
+      return 0 unless @style
+      lowest_level = @style.lowest_metrical_level
+      indices = metrical_level_indices(current_beat, total_elapsed_pulse_units, lowest_level)
+      timing_shift = 0
+      (lowest_level..0).each do |level|
+        timing_shift += @timings[level][indices[-level]] if @timings[level]
+      end
+      return timing_shift
     end
     
     def request_bar(requested_bar_number)
       @mutex.synchronize do
         if requested_bar_number > @current_bar_number
-          recalculate_timings
+          recalculate_timings if @style
           @current_bar_number = requested_bar_number
         end
       end
@@ -73,7 +102,7 @@ module SonicPi
     
     private
     def recalculate_timings
-      @timings[0] = @timings[0] + 1
+      @timings = @style.sample_distributions
     end
   end
 

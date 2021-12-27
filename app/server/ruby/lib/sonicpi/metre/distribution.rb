@@ -1,6 +1,6 @@
 module SonicPi
   class NormalDistribution
-    def initialize(mean=0, stddev=1)
+    def initialize(mean=0, stddev=0)
       @mean = mean
       @stddev = stddev
       @cached_result = nil
