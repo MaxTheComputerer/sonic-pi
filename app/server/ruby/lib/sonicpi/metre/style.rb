@@ -12,6 +12,13 @@ module SonicPi
             NormalDistribution.new, NormalDistribution.new(0.33333),
             NormalDistribution.new, NormalDistribution.new(0.33333)]
         }
+      },
+
+      viennese_waltz: {
+        :beat_groupings => [2,2,2],
+        :distributions => {
+          0 => [NormalDistribution.new, NormalDistribution.new(-0.33333), NormalDistribution.new]
+        }
       }
     }
 

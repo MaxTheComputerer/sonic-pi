@@ -28,7 +28,7 @@ module SonicPi
     def note_to_pulse_units(current_beat, level, duration)
       if level == 0
         # Lookup number of pulse units in current beat
-        @beat_groupings[current_beat]
+        @beat_groupings[current_beat] * duration
       else
         # Assume pulse units are further divisible by 2
         (2 ** (level + 1)) * duration
