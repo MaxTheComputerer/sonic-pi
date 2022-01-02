@@ -13,22 +13,22 @@ module SonicPi
       '12/8' => [3,3,3,3]
     }.freeze
     
-    attr_reader :beat_groupings, :total_beats, :total_pulse_units
+    attr_reader :beat_divisions, :total_beats, :total_pulse_units
     
     def initialize(metre)
       if is_list_like?(metre)
-        @beat_groupings = metre
+        @beat_divisions = metre
       else
-        @beat_groupings = TIME_SIGNATURE_LOOKUP[metre]
+        @beat_divisions = TIME_SIGNATURE_LOOKUP[metre]
       end
-      @total_beats = @beat_groupings.length
-      @total_pulse_units = @beat_groupings.sum
+      @total_beats = @beat_divisions.length
+      @total_pulse_units = @beat_divisions.sum
     end
 
     def note_to_pulse_units(current_beat, level, duration)
       if level == 0
         # Lookup number of pulse units in current beat
-        @beat_groupings[current_beat] * duration
+        @beat_divisions[current_beat] * duration
       else
         # Assume pulse units are further divisible by 2
         (2 ** (level + 1)) * duration
@@ -52,7 +52,7 @@ module SonicPi
     end
 
     def sleep_time(pulse_units)
-      pulse_units.to_f / beat_groupings[0]
+      pulse_units.to_f / beat_divisions[0]
     end
   end
 
@@ -60,15 +60,19 @@ module SonicPi
   class SynchronisedMetre < Metre
     attr_reader :style, :timings
     
-    def initialize(metre, style_name=nil)
+    def initialize(metre, style=nil)
       super(metre)
 
-      if style_name
-        @style = Style.lookup(style_name)
-        raise "Style #{style_name} requires beat groupings #{@style.beat_groupings} but metre has #{@beat_groupings}" unless @beat_groupings == @style.beat_groupings
+      if style
+        if style.is_a?(Style)
+          @style = style
+        else
+          @style = Style.lookup(style)
+        end
+        raise "Style #{@style.name} requires beat divisions #{@style.beat_divisions} but metre has #{@beat_divisions}" unless @beat_divisions == @style.beat_divisions
+        @timings = {}
+        recalculate_timings
       end
-      @timings = {}
-      recalculate_timings if @style
 
       @current_bar_number = __thread_locals.get(:sonic_pi_bar_number)
       @current_bar_number = 0 unless @current_bar_number

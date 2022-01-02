@@ -5,7 +5,7 @@ module SonicPi
 
     STYLE_LOOKUP = {
       triplet_swing: {
-        :beat_groupings => [2,2,2,2],
+        :beat_divisions => [2,2,2,2],
         :distributions => {
           -1 => [NormalDistribution.new, NormalDistribution.new(0.33333),
             NormalDistribution.new, NormalDistribution.new(0.33333),
@@ -15,17 +15,18 @@ module SonicPi
       },
 
       viennese_waltz: {
-        :beat_groupings => [2,2,2],
+        :beat_divisions => [2,2,2],
         :distributions => {
           0 => [NormalDistribution.new, NormalDistribution.new(-0.33333), NormalDistribution.new]
         }
       }
     }
 
-    attr_reader :beat_groupings, :lowest_metrical_level
+    attr_reader :name, :beat_divisions, :lowest_metrical_level
 
-    def initialize(beat_groupings, distributions)
-      @beat_groupings = beat_groupings
+    def initialize(name, beat_divisions, distributions)
+      @name = name
+      @beat_divisions = beat_divisions
       @distributions = distributions
       @lowest_metrical_level = @distributions.keys.min
     end
@@ -40,7 +41,8 @@ module SonicPi
 
     def self.lookup(style_name)
       s = STYLE_LOOKUP[style_name]
-      return Style.new(s[:beat_groupings], s[:distributions])
+      raise "Unknown style #{style_name}" unless s
+      return Style.new(style_name, s[:beat_divisions], s[:distributions])
     end
   end
 end

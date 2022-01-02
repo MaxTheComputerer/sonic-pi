@@ -24,7 +24,7 @@ module SonicPi
     def total_elapsed_pulse_units
       pulse_units = 0
       (0...@current_beat).each do |i|
-        pulse_units += @metre.beat_groupings[i]
+        pulse_units += @metre.beat_divisions[i]
       end
       pulse_units += @current_pulse_unit
       pulse_units
@@ -35,7 +35,7 @@ module SonicPi
     end
     
     def beat_remaining_pulse_units
-      @metre.beat_groupings[@current_beat] - @current_pulse_unit
+      @metre.beat_divisions[@current_beat] - @current_pulse_unit
     end
 
     def note_to_pulse_units(level, duration)
