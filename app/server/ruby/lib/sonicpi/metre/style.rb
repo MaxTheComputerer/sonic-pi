@@ -19,6 +19,16 @@ module SonicPi
         :distributions => {
           0 => [NormalDistribution.new, NormalDistribution.new(-0.33333), NormalDistribution.new]
         }
+      },
+
+      jembe: {
+        :beat_divisions => [3,3,3,3],
+        :distributions => {
+          -1 => [NormalDistribution.new(0, 0.05892), NormalDistribution.new(-0.1331, 0.08848), NormalDistribution.new(-0.01906, 0.07308),
+            NormalDistribution.new(0.01449, 0.06796), NormalDistribution.new(-0.1108, 0.08602), NormalDistribution.new(0.0002142, 0.09496),
+            NormalDistribution.new(0.03905, 0.07029), NormalDistribution.new(-0.1214, 0.08488), NormalDistribution.new(-0.01752, 0.07722),
+            NormalDistribution.new(-0.0005375, 0.07086), NormalDistribution.new(-0.1659, 0.07611), NormalDistribution.new(-0.01680, 0.07935)]
+        }
       }
     }
 
