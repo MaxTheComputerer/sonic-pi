@@ -64,6 +64,9 @@ module SonicPi
 
     attr_reader :name, :beat_divisions, :lowest_metrical_level
 
+    # Beat divisions is a list of integers representing the number of pulse units each beat is divided into
+    # Distributions is a hash of metrical levels (e.g. 0, -1, etc.) to a list containing a distribution for each metrical location in that level
+    # Any probability distribution can be used as long as its class has a sample() method
     def initialize(name, beat_divisions, distributions)
       @name = name
       @beat_divisions = beat_divisions
@@ -71,6 +74,8 @@ module SonicPi
       @lowest_metrical_level = @distributions.keys.min
     end
 
+    # Generate samples from each distribution for each metrical level
+    # Returns a hash of metrical levels to lists of samples
     def sample_distributions
       samples = {}
       @distributions.each do |metrical_level, dist_array|
@@ -79,6 +84,8 @@ module SonicPi
       return samples
     end
 
+    # Static method to lookup a style preset from its symbol
+    # Creates and returns the corresponding Style object
     def self.lookup(style_name)
       s = STYLE_LOOKUP[style_name]
       raise "Unknown style #{style_name}" unless s

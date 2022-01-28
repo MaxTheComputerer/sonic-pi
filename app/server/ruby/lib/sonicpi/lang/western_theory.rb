@@ -1139,6 +1139,7 @@ play (chord_invert (chord :A3, \"M\"), 2) #Second inversion - (ring 64, 69, 73)
         __thread_locals.set(:sonic_pi_bar, bar_object)
 
         block.call
+        # If the bar has any space remaining, sleep for that time
         sleep(metre.sleep_time(bar_object.total_remaining_pulse_units))
         
         __thread_locals.set(:sonic_pi_bar, nil)

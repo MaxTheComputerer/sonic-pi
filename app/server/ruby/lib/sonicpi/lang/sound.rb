@@ -4085,12 +4085,14 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         current_beat = current_bar.current_beat
         total_elapsed_pulse_units = current_bar.total_elapsed_pulse_units
+        # Call metre.sleep_time to convert the timing shift in pulse units to beats
         shift = metre.sleep_time(metre.get_timing(current_beat, total_elapsed_pulse_units))
 
         current_bar.add_note(level, duration)
         time_warp shift do
           play(n, *args, &blk)
         end
+        # Sleep for the duration of the note
         sleep(metre.sleep_time(note_pulse_units))
       end
 
@@ -4117,6 +4119,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         metre = __thread_locals.get(:sonic_pi_metre)
         rest_pulse_units = current_bar.note_to_pulse_units(level, duration)
         
+        # Add the rest as a note to the bar to account for its duration
         current_bar.add_note(level, duration)
         sleep(metre.sleep_time(rest_pulse_units))
       end

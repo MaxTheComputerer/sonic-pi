@@ -1,4 +1,6 @@
 module SonicPi
+
+  # Class representing a Normal distribution
   class NormalDistribution
     def initialize(mean=0, stddev=0)
       @mean = mean
@@ -6,6 +8,9 @@ module SonicPi
       @cached_result = nil
     end
 
+    # Draw a random sample from the distribution
+    # Uses the Box-Muller transform for generating pairs of independent, normally distributed random numbers
+    # Uniform random number generation performed by Sonic Pi's SPRand module
     def sample
       if @cached_result
         result = @cached_result
