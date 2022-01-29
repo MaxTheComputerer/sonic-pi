@@ -4085,7 +4085,7 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
 
         current_beat = current_bar.current_beat
         total_elapsed_pulse_units = current_bar.total_elapsed_pulse_units
-        # Call metre.sleep_time to convert the timing shift in pulse units to beats
+        # Call metre.sleep_time to convert the timing shift from pulse units to beats
         shift = metre.sleep_time(metre.get_timing(current_beat, total_elapsed_pulse_units))
 
         current_bar.add_note(level, duration)
@@ -4095,6 +4095,72 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         # Sleep for the duration of the note
         sleep(metre.sleep_time(note_pulse_units))
       end
+
+      def add_whole(n, *args, &blk)
+        add_note(n, 0, 4, *args, &blk)
+      end
+
+      def add_half_d(n, *args, &blk)
+        add_note(n, 0, 3, *args, &blk)
+      end
+
+      def add_half(n, *args, &blk)
+        add_note(n, 0, 2, *args, &blk)
+      end
+
+      def add_quarter_d(n, *args, &blk)
+        add_note(n, -1, 3, *args, &blk)
+      end
+
+      def add_quarter(n, *args, &blk)
+        add_note(n, 0, 1, *args, &blk)
+      end
+
+      def add_8th_d(n, *args, &blk)
+        add_note(n, -2, 3, *args, &blk)
+      end
+
+      def add_8th(n, *args, &blk)
+        add_note(n, -1, 1, *args, &blk)
+      end
+
+      def add_16th(n, *args, &blk)
+        add_note(n, -2, 1, *args, &blk)
+      end
+
+      # British names
+      def add_semibreve(n, *args, &blk)
+        add_note(n, 0, 4, *args, &blk)
+      end
+
+      def add_minim_d(n, *args, &blk)
+        add_note(n, 0, 3, *args, &blk)
+      end
+
+      def add_minim(n, *args, &blk)
+        add_note(n, 0, 2, *args, &blk)
+      end
+
+      def add_crotchet_d(n, *args, &blk)
+        add_note(n, -1, 3, *args, &blk)
+      end
+
+      def add_crotchet(n, *args, &blk)
+        add_note(n, 0, 1, *args, &blk)
+      end
+
+      def add_quaver_d(n, *args, &blk)
+        add_note(n, -2, 3, *args, &blk)
+      end
+
+      def add_quaver(n, *args, &blk)
+        add_note(n, -1, 1, *args, &blk)
+      end
+
+      def add_semiquaver(n, *args, &blk)
+        add_note(n, -2, 1, *args, &blk)
+      end
+     
 
       def add_sample(sample_name, level=0, duration=1, *args, &blk)
         current_bar = __thread_locals.get(:sonic_pi_bar)
