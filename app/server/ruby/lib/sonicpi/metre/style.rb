@@ -24,40 +24,40 @@ module SonicPi
       jembe_suku: {
         :beat_divisions => [3,3,3,3],
         :distributions => {
-          -1 => [NormalDistribution.new(0, 0.05892), NormalDistribution.new(-0.1331, 0.08848), NormalDistribution.new(-0.01906, 0.07308),
-            NormalDistribution.new(0.01449, 0.06796), NormalDistribution.new(-0.1108, 0.08602), NormalDistribution.new(0.0002142, 0.09496),
-            NormalDistribution.new(0.03905, 0.07029), NormalDistribution.new(-0.1214, 0.08488), NormalDistribution.new(-0.01752, 0.07722),
-            NormalDistribution.new(-0.0005375, 0.07086), NormalDistribution.new(-0.1659, 0.07611), NormalDistribution.new(-0.01680, 0.07935)]
+          -1 => [NormalDistribution.new(0, 0.0589), NormalDistribution.new(-0.2331, 0.0885), NormalDistribution.new(-0.2191, 0.0731),
+            NormalDistribution.new(0.0145, 0.0680), NormalDistribution.new(-0.2108, 0.0860), NormalDistribution.new(-0.1998, 0.0950),
+            NormalDistribution.new(0.0391, 0.0703), NormalDistribution.new(-0.2214, 0.0849), NormalDistribution.new(-0.2175, 0.0772),
+            NormalDistribution.new(-0.0005, 0.0709), NormalDistribution.new(-0.2659, 0.0761), NormalDistribution.new(-0.2168, 0.0794)]
         }
       },
 
       jembe_manjanin: {
         :beat_divisions => [3,3,3,3],
         :distributions => {
-          -1 => [NormalDistribution.new(0, 0.07372), NormalDistribution.new(-0.1630, 0.1158), NormalDistribution.new(0.01148, 0.08321),
-            NormalDistribution.new(0.01126, 0.08266), NormalDistribution.new(-0.1582, 0.08967), NormalDistribution.new(0.01422, 0.09576),
-            NormalDistribution.new(0.01035, 0.08218), NormalDistribution.new(-0.1391, 0.1096), NormalDistribution.new(-0.01251, 0.09243),
-            NormalDistribution.new(0.009116, 0.08766), NormalDistribution.new(-0.2156, 0.08846), NormalDistribution.new(-0.01110, 0.1115)]
+          -1 => [NormalDistribution.new(0, 0.0737), NormalDistribution.new(-0.2630, 0.1158), NormalDistribution.new(-0.1885, 0.0832),
+            NormalDistribution.new(0.0113, 0.0827), NormalDistribution.new(-0.2582, 0.0897), NormalDistribution.new(-0.1858, 0.09586),
+            NormalDistribution.new(0.0103, 0.0822), NormalDistribution.new(-0.2390, 0.1096), NormalDistribution.new(-0.2125, 0.0924),
+            NormalDistribution.new(0.0091, 0.0877), NormalDistribution.new(-0.3156, 0.0885), NormalDistribution.new(-0.2111, 0.1115)]
         }
       },
 
       jembe_maraka: {
         :beat_divisions => [3,3,3,3],
         :distributions => {
-          -1 => [NormalDistribution.new(0, 0.06510), NormalDistribution.new(0.1481, 0.08497), NormalDistribution.new(0.1596, 0.07256),
-            NormalDistribution.new(0.0008616, 0.07582), NormalDistribution.new(0.1799, 0.08771), NormalDistribution.new(0.1646, 0.1039),
-            NormalDistribution.new(-0.02685, 0.07677), NormalDistribution.new(0.1797, 0.08133), NormalDistribution.new(0.1462, 0.07712),
-            NormalDistribution.new(-0.02662, 0.07507), NormalDistribution.new(0.1558, 0.07851), NormalDistribution.new(0.1022, 0.08918)]
+          -1 => [NormalDistribution.new(0, 0.0651), NormalDistribution.new(0.0481, 0.0850), NormalDistribution.new(-0.0404, 0.0726),
+            NormalDistribution.new(0.0009, 0.0758), NormalDistribution.new(0.0799, 0.0877), NormalDistribution.new(-0.0354, 0.1039),
+            NormalDistribution.new(-0.0268, 0.0768), NormalDistribution.new(0.0797, 0.0813), NormalDistribution.new(-0.0538, 0.0771),
+            NormalDistribution.new(-0.0266, 0.0751), NormalDistribution.new(0.0558, 0.0785), NormalDistribution.new(-0.0978, 0.0892)]
         }
       },
 
       jembe_woloso: {
         :beat_divisions => [3,3,3,3],
         :distributions => {
-          -1 => [NormalDistribution.new(0, 0.06774), NormalDistribution.new(-0.2152, 0.1094), NormalDistribution.new(-0.05884, 0.7451),
-            NormalDistribution.new(0.009040, 0.08022), NormalDistribution.new(-0.1883, 0.09199), NormalDistribution.new(-0.04963, 0.08294),
-            NormalDistribution.new(0.01051, 0.08178), NormalDistribution.new(-0.1865, 0.09000), NormalDistribution.new(-0.05451, 0.08037),
-            NormalDistribution.new(0.009081, 0.08183), NormalDistribution.new(-0.2084, 0.08351), NormalDistribution.new(-0.1001, 0.08927)]
+          -1 => [NormalDistribution.new(0, 0.0677), NormalDistribution.new(-0.3152, 0.1094), NormalDistribution.new(-0.2588, 0.0745),
+            NormalDistribution.new(0.0090, 0.0802), NormalDistribution.new(-0.2883, 0.0920), NormalDistribution.new(-0.2496, 0.0829),
+            NormalDistribution.new(0.0105, 0.0818), NormalDistribution.new(-0.2865, 0.0900), NormalDistribution.new(-0.2545, 0.0804),
+            NormalDistribution.new(0.0091, 0.0818), NormalDistribution.new(-0.3084, 0.0835), NormalDistribution.new(-0.3001, 0.0893)]
         }
       }
     }
