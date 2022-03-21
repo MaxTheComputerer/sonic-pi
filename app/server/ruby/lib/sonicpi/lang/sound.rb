@@ -4093,6 +4093,8 @@ Also, if you wish your synth to work with Sonic Pi's automatic stereo sound infr
         sleep(metre.quarter_length_to_sonic_pi_beat(note_quarter_lengths))
       end
 
+      # Shorthand functions assume simple metre for beat level and above
+      # Assumes simple or compound for division levels
       def add_whole(n, *args, &blk)
         add_note(n, 0, 4, *args, &blk)
       end
