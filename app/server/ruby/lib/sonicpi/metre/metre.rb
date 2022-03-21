@@ -80,7 +80,7 @@ module SonicPi
     # Returns a new MetreSequence with a flat representation of the hierarchy
     def flat
       new_sequence = []
-      for m in @sequence do
+      for m in @sequence
         if m.is_a?(MetreTerminal)
           new_sequence.append(m)
         else
@@ -191,7 +191,7 @@ module SonicPi
     # Returns a flat MetreSequence at a given metrical level
     def _get_level(level)
       new_sequence = []
-      for m in @sequence do
+      for m in @sequence
         if m.is_a?(MetreTerminal)
           if level > 0
             new_sequence += m.subdivide(level).sequence
@@ -244,10 +244,16 @@ module SonicPi
 
     attr_reader :beat_duration
 
-    # Sequence can either be a time signature string (e.g. '4/4'), or a list of MetreSequences and MetreTerminals
+    # Sequence can either be a time signature string (e.g. '4/4'),
+    # a multi-dimensional list of Rationals representing the metrical hierarchy (e.g. [[1/8r,1/8r,1/8r], [1/8r,1/8r,1/8r]] is 6/8),
+    # or a MetreSequence or MetreTerminal object
     def initialize(sequence)
-      if is_list_like?(sequence)
-        super(sequence)
+      if sequence.is_a?(MetreSequence)
+        super(sequence.sequence)
+      elsif sequence.is_a?(MetreTerminal)
+        super([sequence])
+      elsif is_list_like?(sequence)
+        super(Metre.parse_rational_list(sequence).sequence)
       else
         super(TIME_SIGNATURE_LOOKUP[sequence])
       end
@@ -259,6 +265,18 @@ module SonicPi
     # For simple time, @beat_duration = 1
     def quarter_length_to_sonic_pi_beat(duration)
       return duration / @beat_duration
+    end
+
+    def self.parse_rational_list(list)
+      new_sequence = []
+      for element in list
+        if is_list_like?(element)
+          new_sequence.append(Metre.parse_rational_list(element))
+        else
+          new_sequence.append(MetreTerminal.new(element))
+        end
+      end
+      return MetreSequence.new(new_sequence)
     end
   end
 
