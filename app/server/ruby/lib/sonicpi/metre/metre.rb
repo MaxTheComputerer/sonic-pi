@@ -41,7 +41,6 @@ module SonicPi
     def sp_thread_safe?
       true
     end
-
   end
 
   # A tree structure representing a metrical hierarchy
@@ -163,8 +162,6 @@ module SonicPi
       return indices
     end
 
-
-
     private
 
     # Length of a MetreSequence is the number of elements in its list
@@ -224,7 +221,6 @@ module SonicPi
         end
       end
     end
-
   end
 
 
